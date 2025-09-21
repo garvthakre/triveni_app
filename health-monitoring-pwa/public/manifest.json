@@ -1,6 +1,6 @@
 {
- "name": "Health Monitoring PWA",
-  "short_name": "HealthPWA",
+ "name": "WATER MONITORING APP",
+  "short_name": "URJANETRA",
   "description": "Smart community health monitoring and early warning system",
   "start_url": "/",
   "display": "standalone",
