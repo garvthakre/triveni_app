@@ -51,9 +51,15 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icon-192x192.png" />
       </head>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        <Suspense fallback={<div>Loading...</div>}>
-          <div className="min-h-screen bg-gray-50">
-            <main className="pb-20">{children}</main>
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center min-h-screen">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+            </div>
+          }
+        >
+          <div className="min-h-screen bg-gray-50 flex flex-col max-w-md mx-auto relative">
+            <main className="flex-1 pb-20 overflow-x-hidden">{children}</main>
             <BottomNavigation />
           </div>
           <Analytics />
