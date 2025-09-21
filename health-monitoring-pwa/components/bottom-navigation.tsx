@@ -1,81 +1,68 @@
 "use client"
 
-import { Bell, User, Menu } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Switch } from "@/components/ui/switch"
+import { Home, Activity, MapPin, BookOpen, Settings } from "lucide-react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { cn } from "@/lib/utils"
 
-interface MobileHeaderProps {
-  title: string
-  subtitle?: string
-  showTribalToggle?: boolean
-  tribalMode?: boolean
-  onTribalModeChange?: (enabled: boolean) => void
-}
+export default function BottomNavigation() {
+  const pathname = usePathname()
 
-export default function MobileHeader({
-  title,
-  subtitle,
-  showTribalToggle = false,
-  tribalMode = false,
-  onTribalModeChange,
-}: MobileHeaderProps) {
+  const navItems = [
+    {
+      icon: Home,
+      label: "Home",
+      href: "/",
+    },
+    {
+      icon: Activity,
+      label: "Symptoms",
+      href: "/report-symptoms",
+    },
+    {
+      icon: MapPin,
+      label: "Map",
+      href: "/analytics",
+    },
+    {
+      icon: BookOpen,
+      label: "Learn",
+      href: "/education",
+    },
+    {
+      icon: Settings,
+      label: "Profile",
+      href: "/water-quality",
+    },
+  ]
+
   return (
-    <div className="sticky top-0 z-50 bg-blue-700 text-white shadow-lg">
-      <div className="px-3 py-3 max-w-md mx-auto">
-        <div className="flex items-center justify-between gap-2">
-          {/* Left side - Menu and Title */}
-          <div className="flex items-center gap-2 flex-1 min-w-0">
-            <Button
-              size="sm"
-              variant="ghost"
-              className="text-white hover:bg-blue-600 p-2 shrink-0 touch-manipulation active:scale-95 transition-transform"
-              style={{ minHeight: "40px", minWidth: "40px" }}
-            >
-              <Menu className="w-4 h-4" />
-            </Button>
-            <div className="flex-1 min-w-0">
-              <h1 className="text-base font-semibold text-white truncate leading-tight">{title}</h1>
-              {subtitle && <p className="text-xs text-white/90 truncate leading-tight">{subtitle}</p>}
-            </div>
-          </div>
+    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
+      <div className="max-w-md mx-auto px-4 py-2 safe-area-inset-bottom">
+        <div className="flex justify-around items-center">
+          {navItems.map((item) => {
+            const isActive = pathname === item.href
+            const Icon = item.icon
 
-          {/* Right side - Controls */}
-          <div className="flex items-center gap-1 shrink-0">
-            {showTribalToggle && (
-              <div className="flex items-center gap-1 bg-blue-800 rounded-full px-2 py-1 touch-manipulation">
-                <span className="text-xs font-medium text-white">हिंदी</span>
-                <Switch
-                  checked={tribalMode}
-                  onCheckedChange={onTribalModeChange}
-                  className="scale-75 touch-manipulation"
-                />
-              </div>
-            )}
-
-            <Button
-              size="sm"
-              variant="ghost"
-              className="relative text-white hover:bg-blue-600 p-2 touch-manipulation active:scale-95 transition-transform"
-              style={{ minHeight: "40px", minWidth: "40px" }}
-            >
-              <Bell className="w-4 h-4" />
-              <Badge className="absolute -top-0.5 -right-0.5 w-3 h-3 p-0 bg-red-500 text-white text-xs border-0 flex items-center justify-center">
-                3
-              </Badge>
-            </Button>
-
-            <Button
-              size="sm"
-              variant="ghost"
-              className="text-white hover:bg-blue-600 p-2 touch-manipulation active:scale-95 transition-transform"
-              style={{ minHeight: "40px", minWidth: "40px" }}
-            >
-              <User className="w-4 h-4" />
-            </Button>
-          </div>
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "flex flex-col items-center justify-center px-3 py-2 rounded-lg transition-all duration-200 touch-manipulation active:scale-95",
+                  "min-w-[60px] min-h-[60px]",
+                  isActive
+                    ? "bg-blue-100 text-blue-600"
+                    : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+                )}
+              >
+                <Icon className="w-5 h-5 mb-1" />
+                <span className="text-xs font-medium leading-tight">{item.label}</span>
+              </Link>
+            )
+          })}
         </div>
       </div>
-    </div>
+    </nav>
   )
 }

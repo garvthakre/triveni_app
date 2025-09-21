@@ -17,13 +17,6 @@ export const metadata: Metadata = {
     icon: "/images/sanjivani.png",
     apple: "/images/sanjivani.png",
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-    viewportFit: "cover",
-  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -31,9 +24,13 @@ export const metadata: Metadata = {
   },
 }
 
-// ✅ Move themeColor here
 export const viewport: Viewport = {
-  themeColor: "#000000",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: "cover",
+  themeColor: "#1d4ed8", // Updated to match blue theme
 }
 
 export default function RootLayout({
@@ -49,6 +46,26 @@ export default function RootLayout({
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
         <link rel="apple-touch-icon" href="/icon-192x192.png" />
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            /* Ensure proper safe area handling */
+            .safe-area-inset-top {
+              padding-top: env(safe-area-inset-top);
+            }
+            .safe-area-inset-bottom {
+              padding-bottom: env(safe-area-inset-bottom);
+            }
+            /* Fix iOS viewport issues */
+            html, body {
+              height: 100vh;
+              height: -webkit-fill-available;
+            }
+            #__next {
+              height: 100vh;
+              height: -webkit-fill-available;
+            }
+          `
+        }} />
       </head>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
         <Suspense
@@ -59,7 +76,10 @@ export default function RootLayout({
           }
         >
           <div className="min-h-screen bg-gray-50 flex flex-col max-w-md mx-auto relative">
-            <main className="flex-1 pb-20 overflow-x-hidden">{children}</main>
+            {/* Main content with proper padding for fixed bottom nav */}
+            <main className="flex-1 pb-20 overflow-x-hidden overflow-y-auto">
+              {children}
+            </main>
             <BottomNavigation />
           </div>
           <Analytics />
