@@ -1,67 +1,80 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { usePathname } from "next/navigation"
-import Link from "next/link"
-import { Home, Heart, Droplets, AlertTriangle, BookOpen, BarChart3 } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { Bell, User, Menu } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Switch } from "@/components/ui/switch"
 
-const navItems = [
-  { href: "/", icon: Home, label: "Home", activeColor: "text-cyan-500" },
-  { href: "/report-symptoms", icon: Heart, label: "Report", activeColor: "text-rose-500" },
-  { href: "/water-quality", icon: Droplets, label: "Water", activeColor: "text-blue-500" },
-  { href: "/alerts", icon: AlertTriangle, label: "Alerts", activeColor: "text-orange-500" },
-  { href: "/education", icon: BookOpen, label: "Learn", activeColor: "text-green-500" },
-  { href: "/analytics", icon: BarChart3, label: "Stats", activeColor: "text-purple-500" },
-]
+interface MobileHeaderProps {
+  title: string
+  subtitle?: string
+  showTribalToggle?: boolean
+  tribalMode?: boolean
+  onTribalModeChange?: (enabled: boolean) => void
+}
 
-export default function BottomNavigation() {
-  const pathname = usePathname()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  if (!mounted) return null
-
+export default function MobileHeader({
+  title,
+  subtitle,
+  showTribalToggle = false,
+  tribalMode = false,
+  onTribalModeChange,
+}: MobileHeaderProps) {
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-lg border-t border-gray-200 px-2 py-2 safe-area-pb">
-      <div className="flex items-center justify-around max-w-md mx-auto">
-        {navItems.map((item) => {
-          const isActive = pathname === item.href
-          const Icon = item.icon
-
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-200 min-w-[60px]",
-                isActive ? "bg-gradient-to-t from-gray-100 to-white shadow-sm scale-105" : "hover:bg-gray-50",
-              )}
+    <div className="sticky top-0 z-50 bg-blue-700 text-white shadow-lg">
+      <div className="px-3 py-3 max-w-md mx-auto">
+        <div className="flex items-center justify-between gap-2">
+          {/* Left side - Menu and Title */}
+          <div className="flex items-center gap-2 flex-1 min-w-0">
+            <Button
+              size="sm"
+              variant="ghost"
+              className="text-white hover:bg-blue-600 p-2 shrink-0 touch-manipulation active:scale-95 transition-transform"
+              style={{ minHeight: "40px", minWidth: "40px" }}
             >
-              <div
-                className={cn(
-                  "p-1.5 rounded-lg transition-colors duration-200",
-                  isActive ? "bg-gradient-to-br from-cyan-500 to-blue-600 shadow-lg" : "bg-transparent",
-                )}
-              >
-                <Icon
-                  className={cn("w-5 h-5 transition-colors duration-200", isActive ? "text-white" : "text-gray-600")}
+              <Menu className="w-4 h-4" />
+            </Button>
+            <div className="flex-1 min-w-0">
+              <h1 className="text-base font-semibold text-white truncate leading-tight">{title}</h1>
+              {subtitle && <p className="text-xs text-white/90 truncate leading-tight">{subtitle}</p>}
+            </div>
+          </div>
+
+          {/* Right side - Controls */}
+          <div className="flex items-center gap-1 shrink-0">
+            {showTribalToggle && (
+              <div className="flex items-center gap-1 bg-blue-800 rounded-full px-2 py-1 touch-manipulation">
+                <span className="text-xs font-medium text-white">हिंदी</span>
+                <Switch
+                  checked={tribalMode}
+                  onCheckedChange={onTribalModeChange}
+                  className="scale-75 touch-manipulation"
                 />
               </div>
-              <span
-                className={cn(
-                  "text-xs font-medium mt-1 transition-colors duration-200",
-                  isActive ? "text-gray-900" : "text-gray-500",
-                )}
-              >
-                {item.label}
-              </span>
-            </Link>
-          )
-        })}
+            )}
+
+            <Button
+              size="sm"
+              variant="ghost"
+              className="relative text-white hover:bg-blue-600 p-2 touch-manipulation active:scale-95 transition-transform"
+              style={{ minHeight: "40px", minWidth: "40px" }}
+            >
+              <Bell className="w-4 h-4" />
+              <Badge className="absolute -top-0.5 -right-0.5 w-3 h-3 p-0 bg-red-500 text-white text-xs border-0 flex items-center justify-center">
+                3
+              </Badge>
+            </Button>
+
+            <Button
+              size="sm"
+              variant="ghost"
+              className="text-white hover:bg-blue-600 p-2 touch-manipulation active:scale-95 transition-transform"
+              style={{ minHeight: "40px", minWidth: "40px" }}
+            >
+              <User className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   )

@@ -17,6 +17,18 @@ export const metadata: Metadata = {
     icon: "/images/health-hero.png",
     apple: "/images/health-hero.png",
   },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+    viewportFit: "cover",
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Health Monitor",
+  },
 }
 
 // ✅ Move themeColor here
@@ -32,8 +44,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Extra meta tags for PWA */}
         <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <link rel="apple-touch-icon" href="/icon-192x192.png" />
       </head>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
         <Suspense fallback={<div>Loading...</div>}>
