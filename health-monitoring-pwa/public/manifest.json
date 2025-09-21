@@ -9,12 +9,12 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/images/logo.svg",
+      "src": "/images/sanjivani.svg",
       "sizes": "192x192",
       "type": "image/svg+xml"
     },
       {
-      "src": "/images/logo.svg",
+      "src": "/images/sanjivani.svg",
       "sizes": "any",
       "type": "image/svg+xml"
     }

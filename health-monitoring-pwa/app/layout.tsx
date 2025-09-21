@@ -9,13 +9,13 @@ import { Suspense } from "react"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Health Monitoring PWA",
+  title: "SANJIVANI",
   description: "Smart community health monitoring and early warning system",
   generator: "v0.app",
   manifest: "/manifest.json",
   icons: {
-    icon: "/images/health-hero.png",
-    apple: "/images/health-hero.png",
+    icon: "/images/sanjivani.png",
+    apple: "/images/sanjivani.png",
   },
   viewport: {
     width: "device-width",
